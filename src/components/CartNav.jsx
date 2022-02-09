@@ -31,19 +31,21 @@ const CartNav = ({
   );
 
   return (
-    <div className="z-10 top-0 right-2 p-3 glassmorphism">
+    <div className="fixed h-screen right-0 top-0 overflow-y-auto p-5 glassmorphism">
       <div className="nav__cart" onClick={() => setCartVisible(!isCartVisible)}>
         {!isCartVisible ? renderOpenButton() : renderCloseButton()}
       </div>
-      <div className="overflow-auto">
-        {isCartVisible && (
-          <Cart
-            cart={cart}
-            onUpdateCartQty={handleUpdateCartQty}
-            onRemoveFromCart={onRemoveFromCart}
-            onEmptyCart={onEmptyCart}
-          />
-        )}
+      <div>
+        <div className="">
+          {isCartVisible && (
+            <Cart
+              cart={cart}
+              onUpdateCartQty={handleUpdateCartQty}
+              onRemoveFromCart={onRemoveFromCart}
+              onEmptyCart={onEmptyCart}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

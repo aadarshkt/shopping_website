@@ -46,12 +46,17 @@ const Cart = ({ cart, onUpdateCartQty, onRemoveFromCart, onEmptyCart }) => {
       {renderEmptyMessage()}
       {renderItems()}
       {renderTotal()}
-      <div className="cart__footer">
-        <button className="cart__btn-empty" onClick={handleEmptyCart}>
+      <div className="">
+        <button
+          className="font-poppins mt-5 ml-8 mr-8 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          onClick={handleEmptyCart}
+        >
           Empty cart
         </button>
         <Link className="text-white font-medium" to="/checkout">
-          Checkout
+          <button className="font-poppins mt-5 ml-8 mr-8 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Checkout
+          </button>
         </Link>
       </div>
     </div>

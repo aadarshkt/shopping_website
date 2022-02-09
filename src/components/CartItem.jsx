@@ -11,7 +11,7 @@ const CartItem = ({ item, onUpdateCartQty, onRemoveFromCart }) => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-1/2">
+    <div className="flex flex-col justify-center items-center">
       <img className="rounded-lg" src={item.image.url} alt={item.name} />
       <div className="flex flex-row">
         <h4 className="text-white font-light">{item.name}</h4>
