@@ -1,34 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import commerce from "../lib/commerce";
 
-const Checkout = ({ onCaptureCheckout, cart }) => {
+const Checkout = ({ cart }) => {
+
+  let navigate = useNavigate();
   const [checkoutState, setCheckoutState] = useState({
-    checkoutToken: {},
     firstName: "Jane",
     lastName: "Doe",
     email: "janedoe@email.com",
     phoneNumber: 1234567890,
   });
-
-  const [card, setCard] = useState({
-    number: "",
-    expiry_month: "",
-    expiry_year: "",
-    cvc: "",
-  });
-
-  const generateCheckoutToken = () => {
-    if (cart.line_items.length) {
-      commerce.checkout
-        .generateToken(cart.id, { type: "cart" })
-        .then((token) => {
-          setCheckoutState.checkoutToken(token);
-        })
-        .catch((error) => {
-          console.log("There was an error in generating a token", error);
-        });
-    }
-  };
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -36,60 +18,38 @@ const Checkout = ({ onCaptureCheckout, cart }) => {
     setCheckoutState((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleCaputure = (e) => {
+  const encode = (data) => {
+    return Object.keys(data)
+        .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+        .join("&");
+  }
+
+  const handleSubmit = (e) => {
+    console.log(e);
+    console.
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: encode({ "form-name": "Order Data", ...checkoutState })
+    })
+      .then(() => alert("Success!"))
+      .catch(error => alert(error));
+
     e.preventDefault();
-
-    const orderData = {
-      line_items: sanitizedLineItems(cart.line_items),
-      customer: {
-        firstname: checkoutState.firstName,
-        lastname: checkoutState.lastName,
-        email: checkoutState.email,
-        phoneNumber: checkoutState.phoneNumber,
-      },
-      payment: {
-        gateway: "test_gateway",
-        card: {
-          number: card.number,
-          expiry_month: card.expiry_month,
-          expiry_year: card.expiry_year,
-          cvc: card.cvc,
-        },
-      },
-    };
-
-    onCaptureCheckout(checkoutState.checkoutToken.id, orderData);
   };
-
-  const sanitizedLineItems = (lineItems) => {
-    return lineItems.reduce((data, lineItem) => {
-      const item = data;
-      let variantData = null;
-      if (lineItem.selected_options.length) {
-        variantData = {
-          [lineItem.selected_options[0].group_id]:
-            lineItem.selected_options[0].option_id,
-        };
-      }
-      item[lineItem.id] = {
-        quantity: lineItem.quantity,
-        variants: variantData,
-      };
-      return item;
-    }, {});
-  };
-
-  useEffect(() => {
-    generateCheckoutToken();
-  }, []);
 
   return (
     <div className="flex h-screen justify-center items-center bg-gradient-to-r from-yellow-500 via-purple-500 to-pink-500 ">
       <div className="flex flex-col w-full justify-center items-center ">
-      <h1 className="flex font-extrabold font-poppins text-white text-4xl m-12" >Checkout</h1>
+        <h1 className="flex font-extrabold font-poppins text-white text-4xl m-12">
+          Checkout
+        </h1>
         <form
+          name="Order Data"
           autoComplete="off"
-          className="flex flex-col bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4 w-4/12" 
+          className="flex flex-col bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4 w-4/12"
+          onSubmit={handleSubmit}
+          data-netlify="true"
         >
           <label
             className="font-poppins block text-gray-700 text-sm font-bold mt-3 mb-1"
@@ -147,8 +107,8 @@ const Checkout = ({ onCaptureCheckout, cart }) => {
 
           <button
             className="font-poppins mt-5 ml-8 mr-8 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="button"
-            onClick={handleCaputure}
+            type="submit"
+            onClick={navigate("/")}
           >
             Confirm Order
           </button>

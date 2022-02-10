@@ -12,41 +12,50 @@ const CartNav = ({
   const [isCartVisible, setCartVisible] = useState(false);
 
   const renderOpenButton = () => (
-    <div>
+    <div className="fixed right-1 top-1 glassmorphism p-3">
       <button>
-        <CartIcon />
         {cart !== null ? (
-          <p className="text-white z-10 fixed">{cart.total_items}</p>
+          <p className="absolute bg-red-500 p-1 rounded-full right-2 top-0 text-white text-xs">
+            {cart.quantity}
+          </p>
         ) : (
           ""
         )}
+        <CartIcon />
       </button>
     </div>
   );
 
   const renderCloseButton = () => (
-    <button className="nav__cart-btn--close">
-      <CloseIcon />
-    </button>
+    <div className="flex flex-row w-full mb-3">
+      <button>
+        <CloseIcon />
+      </button>
+      <div className="flex grow justify-center">
+        <h4 className="text-white font-medium">Your Shopping Cart</h4>
+      </div>
+    </div>
   );
 
   return (
-    <div className="fixed h-screen right-0 top-0 overflow-y-auto p-5 glassmorphism">
-      <div className="nav__cart" onClick={() => setCartVisible(!isCartVisible)}>
-        {!isCartVisible ? renderOpenButton() : renderCloseButton()}
+    <div className="flex flex-col">
+      <div className="" onClick={() => setCartVisible(!isCartVisible)}>
+        {!isCartVisible ? renderOpenButton() : false}
       </div>
-      <div>
-        <div className="">
-          {isCartVisible && (
-            <Cart
-              cart={cart}
-              onUpdateCartQty={handleUpdateCartQty}
-              onRemoveFromCart={onRemoveFromCart}
-              onEmptyCart={onEmptyCart}
-            />
-          )}
+      {isCartVisible && (
+        <div className="fixed h-screen right-0 top-0 overflow-y-auto glassmorphism p-5 w-1/3">
+          <div onClick={() => setCartVisible(!isCartVisible)}>
+            {renderCloseButton()}
+          </div>
+
+          <Cart
+            cart={cart}
+            onUpdateCartQty={handleUpdateCartQty}
+            onRemoveFromCart={onRemoveFromCart}
+            onEmptyCart={onEmptyCart}
+          />
         </div>
-      </div>
+      )}
     </div>
   );
 };

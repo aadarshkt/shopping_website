@@ -10,7 +10,7 @@ const Header = ({ cart, handleUpdateCartQty, onRemoveFromCart, onEmptyCart}) => 
           IIT(ISM) Merchandise
         </h1>
       </div>
-      <div className="flex justify-center items-center z-10">
+      <div className="flex justify-center items-center">
         <CartNav
           cart={cart}
           onUpdateCartQty={handleUpdateCartQty}
