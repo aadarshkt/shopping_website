@@ -13,7 +13,7 @@ const Cart = ({ cart, onUpdateCartQty, onRemoveFromCart, onEmptyCart }) => {
       return;
     }
     return (
-      <p className="cart__none">
+      <p className="font-poppins font-light text-white pt-5 pb-5">
         You have no items in your shopping cart, start adding some!
       </p>
     );
@@ -41,20 +41,19 @@ const Cart = ({ cart, onUpdateCartQty, onRemoveFromCart, onEmptyCart }) => {
   );
 
   return (
-    <div className="overflow-auto">
-      <h4 className="text-white font-medium">Your Shopping Cart</h4>
+    <div>
       {renderEmptyMessage()}
       {renderItems()}
       {renderTotal()}
       <div className="">
         <button
-          className="font-poppins mt-5 ml-8 mr-8 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="font-poppins mt-5 ml-8 mr-8 bg-white hover:bg-gray-300 text-black font-light py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           onClick={handleEmptyCart}
         >
           Empty cart
         </button>
         <Link className="text-white font-medium" to="/checkout">
-          <button className="font-poppins mt-5 ml-8 mr-8 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          <button className="font-poppins mt-5 ml-8 mr-8 bg-white hover:bg-gray-300 text-black font-light  py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             Checkout
           </button>
         </Link>

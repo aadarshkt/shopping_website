@@ -14,7 +14,7 @@ const ProductItem = ({ product, onAddToCart }) => {
       <img
         src={product.image?.url}
         alt={product.name}
-        className="w-full h-full object-center object-cover lg:w-full lg:h-full"
+        className="w-full h-full"
       />
       <div className="flex flex-row pl-2">
         <h1 className="text-white font-medium font-poppins">{product.name}</h1>

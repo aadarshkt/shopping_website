@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ProductsList from "./components/ProductsList";
 import commerce from "./lib/commerce";
 import Header from "./components/Header";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import Checkout from "./pages/Checkout";
 import Confirmation from "./pages/Confirmation";
 
@@ -10,6 +10,8 @@ const App = () => {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState({});
   const [order, setOrder] = useState({});
+
+  let navigate = useNavigate();
 
   const fetchProducts = () => {
     commerce.products
@@ -100,7 +102,7 @@ const App = () => {
 
         refreshCart();
 
-        //TODO navigate to confirmation page.
+        navigate("/confirmation");
 
         window.sessionStorage.setItem("order_receipt", JSON.stringify(order));
       })
@@ -117,28 +119,28 @@ const App = () => {
   }, []);
 
   return (
-    <BrowserRouter>
+    <>
       <Routes>
         <Route
           path="/"
           exact
           element={
-              <div className="flex h-screen bg-gradient-to-r from-yellow-500 via-purple-500 to-pink-500 ">
-                <div className="flex flex-col">
-                  <Header
-                    cart={cart}
-                    handleUpdateCartQty={handleUpdateCartQty}
-                    onRemoveFromCart={handleRemoveFromCart}
-                    onEmptyCart={handleEmptyCart}
+            <div className="flex h-screen bg-gradient-to-r from-yellow-500 via-purple-500 to-pink-500 ">
+              <div className="flex flex-col">
+                <Header
+                  cart={cart}
+                  handleUpdateCartQty={handleUpdateCartQty}
+                  onRemoveFromCart={handleRemoveFromCart}
+                  onEmptyCart={handleEmptyCart}
+                />
+                <div className="flex flex-row grow justify-center items-center">
+                  <ProductsList
+                    products={products}
+                    onAddCart={handleAddToCart}
                   />
-                  <div className="flex flex-row grow justify-center items-center">
-                    <ProductsList
-                      products={products}
-                      onAddCart={handleAddToCart}
-                    />
-                  </div>
                 </div>
               </div>
+            </div>
           }
         />
         <Route
@@ -156,7 +158,7 @@ const App = () => {
           }
         />
       </Routes>
-    </BrowserRouter>
+      </>
   );
 };
 
